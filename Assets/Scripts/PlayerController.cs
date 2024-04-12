@@ -5,35 +5,21 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    public InputAction MoveAction;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        MoveAction.Enable();
     }
 
     // Update is called once per frame
     void Update()
     {
-        float horizontal = 0f;
-        float vertical = 0f;
+        Vector2 move = MoveAction.ReadValue<Vector2>();
+        Debug.Log(move);
 
-        if (Keyboard.current.leftArrowKey.isPressed) {
-            horizontal = -1f;
-        } else if (Keyboard.current.rightArrowKey.isPressed) {
-            horizontal = 1f;
-        }
-
-        if (Keyboard.current.upArrowKey.isPressed) {
-            vertical = 1f;
-        } else if (Keyboard.current.downArrowKey.isPressed) {
-            vertical = -1f;
-        }
-
-        Debug.Log(string.Format("Horizontal: {0}, Vertical: {1}", horizontal, vertical));
-
-        Vector2 position = transform.position;
-        position.x = position.x + .1f * horizontal;
-        position.y = position.y + .1f * vertical;
+        Vector2 position = (Vector2) transform.position + move * 3f * Time.deltaTime;
         transform.position = position;
     }
 }
