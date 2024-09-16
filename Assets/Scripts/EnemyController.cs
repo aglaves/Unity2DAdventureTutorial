@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
     public float switchDirectionTime = 3.0f;
     private float switchDirectionTimer = 0f;
     private float direction = 1f;
+    private bool aggressive = true;
     Rigidbody2D rigidbody2D;
     Animator animator;
 
@@ -31,6 +32,8 @@ public class EnemyController : MonoBehaviour
     }
 
     void FixedUpdate() {
+        if (!aggressive) return;
+
         Vector2 position = rigidbody2D.position;
         if (vertical) {
             position.y = position.y + (speed * direction) * Time.deltaTime;
@@ -50,5 +53,10 @@ public class EnemyController : MonoBehaviour
         if (player != null) {
             player.ChangeHealth(-1);
         }
+    }
+
+    public void Fix() {
+        aggressive = true;
+        rigidbody2D.simulated = false;
     }
 }
